@@ -100,8 +100,16 @@ view : Model -> Html Msg
 view model =
     div []
         [ div [] [ text (toString model) ]
-        , button [ onClick Play ] [ text "Play" ]
-        , button [ onClick NextStep ] [ text "Next" ]
+        , if model.step == 0 || model.step == List.length animations then
+            button [ onClick Play ] [ text "Play" ]
+          else
+            text ""
+        , case getAnimation model.step of
+            Dialog _ ->
+                button [ onClick NextStep ] [ text "Next" ]
+
+            Walk _ ->
+                text ""
         , div [ style [ ( "position", "relative" ) ] ]
             [ viewBlock model ]
         ]
